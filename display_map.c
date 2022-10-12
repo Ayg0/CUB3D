@@ -23,39 +23,39 @@ void	check_and_put(int i, int j, t_info *gm_info)
 		mlx_put_image_to_window(gm_info->mlx, gm_info->window, gm_info->pic.mpt, j * 32, i * 32);
 }
 
-void	draw_map(t_info *gm_info)
-{
-	int	i;
-	int	j;
-	int	len;
+//void	draw_map(t_info *gm_info)
+//{
+//	int	i;
+//	int	j;
+//	int	len;
+//
+//	i = 0;
+//	while (i < gm_info->max[0])
+//	{
+//		j = 0;
+//		len = ft_strlen(gm_info->map[i]);
+//		if (len == -1)
+//			break ;
+//		while (j < gm_info->max[1])
+//		{
+//			if (j < len)
+//				check_and_put(i, j, gm_info);
+//			else
+//				mlx_put_image_to_window(gm_info->mlx, gm_info->window, gm_info->pic.mpt, i * 32, j * 32);
+//			j++;
+//		}
+//		i++;
+//	}
+//}
 
-	i ^= i;
-	while (i < gm_info->max[0])
-	{
-		j ^= j;
-		len = ft_strlen(gm_info->map[i]);
-		if (len == -1)
-			break ;
-		while (j < gm_info->max[1])
-		{
-			if (j < len)
-				check_and_put(i, j, gm_info);
-			else
-				mlx_put_image_to_window(gm_info->mlx, gm_info->window, gm_info->pic.mpt, i * 32, j * 32);\
-			j++;
-		}
-		i++;
-	}
-}
-
-void	display_map(char **map, int *max)
-{
-	t_info	gm_info;
-
-	gm_info.mlx = mlx_init();
-	gm_info.map = map;
-	init(&gm_info, max);
-	gm_info.window = mlx_new_window(gm_info.mlx, max[1] * 32, max[0] * 32, "NICE");
-	draw_map(&gm_info);
-	mlx_loop(gm_info.mlx);
-}
+//void	display_map(char **map, int *max)
+//{
+//	t_info	gm_info;
+//
+//	gm_info.mlx = mlx_init();
+//	gm_info.map = map;
+//	init(&gm_info, max);
+//	gm_info.window = mlx_new_window(gm_info.mlx, max[1] * 32, max[0] * 32, "NICE");
+//	draw_map(&gm_info);
+//	mlx_loop(gm_info.mlx);
+//}

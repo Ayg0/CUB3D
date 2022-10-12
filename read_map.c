@@ -24,7 +24,7 @@ char	*read_line(int fd)
 	char	*master_s;
 
 	re = 1;
-	c ^= c;
+	c = 0;
 	master_s = ft_calloc(1, sizeof(char));
 	while (re > 0)
 	{
@@ -50,7 +50,7 @@ int	get_size(char *name)
 	f = open(name, O_RDONLY);
 	if (f < 0)
 		return (-1);
-	i ^= i;
+	i = 0;
 	while (1)
 	{
 		s = read_line(f);
@@ -75,8 +75,8 @@ char	**read_map(char	*map_name, int	*max)
 	if (f < 0)
 		return (NULL);
 	map = ft_calloc(max[0] + 1, sizeof(char *));
-	i ^= i;
-	max[1] ^= max[1];
+	i = 0;
+	max[1] = 0;
 	while (1)
 	{
 		map[i] = read_line(f);

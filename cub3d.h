@@ -5,6 +5,7 @@
 # include <unistd.h>
 # include <mlx.h>
 # include <fcntl.h>
+# include <math.h>
 
 typedef struct s_img_d
 {
@@ -52,9 +53,18 @@ typedef struct s_info
 	int		max[2];
 } t_info;
 
+typedef struct s_all_data
+{
+	t_info	inf;
+	t_tp	tp;
+	float	rot;
+	t_img_d	img_d;
+} t_data;
+
 typedef	unsigned char u8bit;
 
 int		ft_strlen(char	*s);
 void	*ft_calloc(size_t count, size_t size);
 char	*read_line(int fd);
+char	**read_map(char	*map_name, int	*max);
 #endif
