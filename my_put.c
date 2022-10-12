@@ -150,6 +150,7 @@ int	manage_keys(int k, t_data *all)
 {
 	all->tp.s.x += ((k == 13) * -20) + ((k == 2) * 20);
 	all->tp.s.y += ((k == 0) * -20) + ((k == 1) * 20);
+	all->rot += ((k == 124) * -0.4188) + ((k == 123) * 0.4188);
 	return (0);
 }
 
