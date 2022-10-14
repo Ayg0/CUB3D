@@ -7,9 +7,17 @@
 # include <fcntl.h>
 # include <math.h>
 
+# define w_key 13
+# define s_key 1
+# define a_key 0
+# define d_key 2
+# define main_h 720
+# define main_w 1280
+
 typedef struct s_img_d
 {
 	int		*p;
+	void	*img;
 	int		b_by_p;
 	int		size_line;
 	int		endi;
@@ -37,27 +45,26 @@ typedef struct s_color
 	unsigned char	blue;
 } t_color;
 
-typedef struct s_pic
-{
-	void	*p;
-	void	*mpt;
-	void	*wall;
-} t_pic;
-
 typedef struct s_info
 {
 	void	*window;
 	void	*mlx;
-	t_pic	pic;
 	char	**map;
 	int		max[2];
 } t_info;
+
+typedef struct s_s_win
+{
+	void	*window;
+	t_img_d	pic;
+} t_s_win;
 
 typedef struct s_all_data
 {
 	t_info	inf;
 	t_tp	tp;
 	float	rot;
+	t_s_win	s;
 	t_img_d	img_d;
 } t_data;
 

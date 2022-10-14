@@ -1,9 +1,8 @@
 #include "cub3d.h"
 
-
 int	wall_c(int flag, int color)
 {
-	static	int	w_c;
+	static int	w_c;
 
 	w_c = (color * (flag == 1)) + (w_c * (flag == 0));
 	return (w_c);
@@ -20,10 +19,12 @@ int	get_value(u8bit tr, u8bit red, u8bit blue, u8bit green)
 	return (tr << 24 | red << 16 | green << 8 | blue);
 }
 
-int p_v(int x)
+int	p_v(int x)
 {
-    int mask = (x >> 31);
-    return (x ^ mask) - mask;
+	int	mask;
+
+	mask = (x >> 31);
+	return ((x ^ mask) - mask);
 }
 
 int	put(int x, int y, t_img_d *img_d, int color)
@@ -31,7 +32,7 @@ int	put(int x, int y, t_img_d *img_d, int color)
 	if (x >= img_d->width || y >= img_d->height
 		|| img_d->p[x + (y * img_d->width)] == wall_c(0, 0))
 		return (0);
-	return (put_pixel(x, y, img_d, color));	
+	return (put_pixel(x, y, img_d, color));
 }
 
 int	draw_case1(t_tp *new, int *d, t_img_d *img_d, int color)
@@ -79,9 +80,9 @@ int	draw_case2(t_tp *new, int *d, t_img_d *img_d, int color)
 		else
 		{
 			pk += (2 * dx) - (2 * dy);
-			new->s.x += (d[0] > 0) * 1 + (d[0] < 0) * -1;;
+			new->s.x += (d[0] > 0) * 1 + (d[0] < 0) * -1;
 		}
-		new->s.y += (d[1] >= 0) * 1 + (d[1] < 0) * -1;;
+		new->s.y += (d[1] >= 0) * 1 + (d[1] < 0) * -1;
 	}
 	if (!put(new->s.x, new->s.y, img_d, color))
 		return (-1);
@@ -91,18 +92,23 @@ int	draw_case2(t_tp *new, int *d, t_img_d *img_d, int color)
 int	draw_line(t_tp t_point, t_img_d *img_d, int color)
 {
 	int		d[2];
+	t_ps	start;
 
-	d[0] = t_point.e.x - t_point.s.x; 
+	d[0] = t_point.e.x - t_point.s.x;
 	d[1] = t_point.e.y - t_point.s.y;
-	if (p_v(d[0]) > p_v(d[1]))
-		return (draw_case1(&t_point, d, img_d, color));
-	return (draw_case2(&t_point, d, img_d, color));
+	start.x = t_point.s.x;
+	start.y = t_point.s.y;
+	(p_v(d[0]) > p_v(d[1])) && draw_case1(&t_point, d, img_d, color);
+	(p_v(d[0]) <= p_v(d[1])) && draw_case2(&t_point, d, img_d, color);
+	return ((int) sqrt(pow(t_point.s.x - start.x, 2)
+			+ pow(t_point.s.y - start.y, 2)));
 }
 
 void	put_block(int i, int j, int color, t_img_d *img_d)
 {
 	int	k;
 	int	l;
+
 	k = i * 32;
 	i = (i * 32) + 32;
 	while (k < i)
@@ -121,71 +127,128 @@ void	draw(t_img_d *img_d, t_info *gi)
 {
 	int	i;
 	int	j;
+
 	i = 0;
 	while (i < (img_d->height / 32))
 	{
 		j = 0;
 		while (j < (img_d->width / 32))
 		{
-			put_block(i, j, get_value(0, 255 * (gi->map[i][j] != '1'), 255, 255 * (gi->map[i][j] != '1')), img_d);
+			put_block(i, j, get_value(0,
+					255 * (gi->map[i][j] != '1'),
+					255, 255 * (gi->map[i][j] != '1')), img_d);
 			j++;
 		}
 		i++;
 	}	
 }
 
-void	draw_map(t_img_d *img_d, t_info *gi)
+void	draw_map(t_data *all_data)
 {
-	gi->map = read_map("./map", gi->max);
-	img_d->height = gi->max[0] * 32;
-	img_d->width = gi->max[1] * 32;
-	gi->window = mlx_new_window(gi->mlx, img_d->width, img_d->height, "NICE");
-	gi->pic.p = mlx_new_image(gi->mlx, img_d->width, img_d->height);
-	img_d->p = (int *)mlx_get_data_addr(gi->pic.p, &img_d->b_by_p, &img_d->size_line, &img_d->endi);
+	all_data->inf.map = read_map("./map", all_data->inf.max);
+	all_data->img_d.height = all_data->inf.max[0] * 32;
+	all_data->img_d.width = all_data->inf.max[1] * 32;
+	all_data->s.pic.height = main_h;
+	all_data->s.pic.width = main_w;
+	all_data->inf.window = mlx_new_window(all_data->inf.mlx, all_data->img_d.width, all_data->img_d.height, "NICE");
+	all_data->img_d.img = mlx_new_image(all_data->inf.mlx, all_data->img_d.width, all_data->img_d.height);
+	all_data->img_d.p = (int *)mlx_get_data_addr(all_data->img_d.img, &all_data->img_d.b_by_p, &all_data->img_d.size_line, &all_data->img_d.endi);
+	all_data->s.window = mlx_new_window(all_data->inf.mlx, main_w, main_h, "other one");
+	all_data->s.pic.img = mlx_new_image(all_data->inf.mlx, main_w, main_h);
+	all_data->s.pic.p = (int *)mlx_get_data_addr(all_data->s.pic.img, &all_data->s.pic.b_by_p, &all_data->s.pic.size_line, &all_data->s.pic.endi);
 	wall_c(1, get_value(0, 0, 255, 0));
-	draw(img_d, gi);
+	//draw(&all_data->img_d, &all_data->inf);
 }
 
 int	manage_keys(int k, t_data *all)
 {
-	all->tp.s.x += ((k == 13) * -20) + ((k == 2) * 20);
-	all->tp.s.y += ((k == 0) * -20) + ((k == 1) * 20);
-	all->rot += ((k == 124) * -0.4188) + ((k == 123) * 0.4188);
+	all->tp.s.y += (((k == w_key) * 20) + ((k == s_key) * -20)) * sin(all->rot)
+		+ (((k == a_key) * -20) + ((k == d_key) * 20)) * sin(all->rot + M_PI_2);
+	all->tp.s.x += (((k == w_key) * 20) + ((k == s_key) * -20)) * cos(all->rot)
+		+ (((k == a_key) * -20) + ((k == d_key) * 20)) * cos(all->rot + M_PI_2);
+	all->rot += ((k == 124) * M_PI / 15) + ((k == 123) * -M_PI / 15);
+	return (0);
+}
+
+int	draw_sewindow(int x, int distance, int color, t_data *data)
+{
+	int	y;
+	int	nu_pxls;
+	int	di;
+
+	nu_pxls = (main_h % distance);
+	printf("%d - %d\n", nu_pxls, distance);
+	y = (main_h - nu_pxls);
+	di = y + nu_pxls;
+	while (y < di)
+	{
+		put_pixel(x, y, &data->s.pic, color);
+		y++;
+	}
+	return (0);
+}
+
+int	reset_img(t_data *all)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < main_h)
+	{
+		x = 0;
+		while (x < main_w)
+		{
+			put_pixel(x, y, &all->s.pic, get_value(0,0, 255 * (y > (main_h / 2)), 255 * (y <= (main_h / 2))));
+			x++;
+		}
+		y++;
+	}
 	return (0);
 }
 
 int	do_it(int key, t_data *all)
 {
 	float	p;
+	int		distance = 0;
+	int		x;
+	float	inc;
 
-	p = 0;
+	p = -M_PI / 6;
+	inc = (M_PI / 3) / all->s.pic.width;
+	x = 0;
 	draw(&all->img_d, &all->inf);
+	reset_img(all);
 	manage_keys(key, all);
-	while (p < 1.04)
+	while (p < M_PI / 6)
 	{
-		all->tp.e.x = 4000 * sin(p + all->rot);
-		all->tp.e.y = 4000 * cos(p + all->rot);
-		draw_line(all->tp, &all->img_d, get_value(0, 0, 0, 255));
-		p += 0.05;
+		all->tp.e.y = 4000 * sin(p + all->rot);
+		all->tp.e.x = 4000 * cos(p + all->rot);
+		distance = draw_line(all->tp, &all->img_d, get_value(0, 0, 0, 255));
+		draw_sewindow(x, distance, get_value(0, 67, 225, 69), all);
+		p += inc;
+		x++;
 	}
-	mlx_put_image_to_window(all->inf.mlx, all->inf.window, all->inf.pic.p, 0, 0);
+	mlx_put_image_to_window(all->inf.mlx,
+		all->inf.window, all->img_d.img, 0, 0);
+	mlx_put_image_to_window(all->inf.mlx,
+		all->s.window, all->s.pic.img, 0, 0);
 	return (1);
 }
 
-int	main()
+int	main(void)
 {
-	t_img_d	img_data;
-	t_info	gm_info;
 	t_data	all_data;
 
 	all_data.tp.s.y = 100;
 	all_data.tp.s.x = 100;
 	all_data.rot = 0;
-	gm_info.mlx = mlx_init();
-	draw_map(&img_data, &gm_info);
-	all_data.img_d = img_data;
-	all_data.inf = gm_info;
-	mlx_put_image_to_window(all_data.inf.mlx, all_data.inf.window, all_data.inf.pic.p, 0, 0);
-	mlx_key_hook(all_data.inf.window, do_it, &all_data);
+	all_data.inf.mlx = mlx_init();
+	draw_map(&all_data);
+	mlx_put_image_to_window(all_data.inf.mlx,
+		all_data.inf.window, all_data.img_d.img, 0, 0);
+	mlx_hook(all_data.s.window, 02, (1L << 0), do_it, &all_data);
+	mlx_put_image_to_window(all_data.inf.mlx,
+		all_data.s.window, all_data.s.pic.img, 0, 0);
 	mlx_loop(all_data.inf.mlx);
 }
