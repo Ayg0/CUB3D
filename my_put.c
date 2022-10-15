@@ -162,10 +162,16 @@ void	draw_map(t_data *all_data)
 
 int	manage_keys(int k, t_data *all)
 {
-	all->tp.s.y += (((k == w_key) * 20) + ((k == s_key) * -20)) * sin(all->rot)
-		+ (((k == a_key) * -20) + ((k == d_key) * 20)) * sin(all->rot + M_PI_2);
-	all->tp.s.x += (((k == w_key) * 20) + ((k == s_key) * -20)) * cos(all->rot)
+	int	new[2];
+
+	new[0] = all->tp.s.x + (((k == w_key) * 20) + ((k == s_key) * -20)) * cos(all->rot)
 		+ (((k == a_key) * -20) + ((k == d_key) * 20)) * cos(all->rot + M_PI_2);
+	new[1] = all->tp.s.y + (((k == w_key) * 20) + ((k == s_key) * -20)) * sin(all->rot)
+		+ (((k == a_key) * -20) + ((k == d_key) * 20)) * sin(all->rot + M_PI_2);
+	if (all->img_d.p[new[0] + (new[1] * all->img_d.width)] == wall_c(0, 0))
+		return (-1);
+	all->tp.s.x = new[0];
+	all->tp.s.y = new[1];
 	all->rot += ((k == 124) * (M_PI / 6)) + ((k == 123) * (-M_PI / 6));
 	return (0);
 }
@@ -177,10 +183,11 @@ int	draw_sewindow(int x, int distance, int color, t_data *data)
 	int	di;
 
 	if (!distance)
-		distance++;
+		exit(5);
 	nu_pxls = data->cons / distance;
-	//nu_pxls = (main_h / 2) / distance;
 	y = (main_h - nu_pxls) / 2;
+	if (y < 0)
+		y = 0;
 	di = y + nu_pxls;
 	while (y < main_h && y < di)
 	{
@@ -201,7 +208,10 @@ int	reset_img(t_data *all)
 		x = 0;
 		while (x < main_w)
 		{
-			put_pixel(x, y, &all->s.pic, get_value(0, 55 * (y > (main_h / 2)), 65 * (y > (main_h / 2)), 174 * (y <= (main_h / 2))));
+			if (y > main_h / 2)
+			put_pixel(x, y, &all->s.pic, get_value(0, 102, 153, 102));
+			else
+				put_pixel(x, y, &all->s.pic, get_value(0, 204, 255, 204));
 			x++;
 		}
 		y++;
@@ -217,9 +227,10 @@ int	do_it(int key, t_data *all)
 
 	inc = (M_PI / 3) / all->s.pic.width;
 	x = 0;
+	if (manage_keys(key, all) == -1)
+		return (-1);
 	draw(&all->img_d, &all->inf);
 	reset_img(all);
-	manage_keys(key, all);
 	float angle = all->rot - (M_PI / 6);
 	while (angle < all->rot + (M_PI / 6))
 	{
