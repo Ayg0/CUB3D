@@ -5,7 +5,7 @@ NAME = cub3d
 CFLAGS = -Wall -Werror -Wextra -Imlx -g
 LFLAGS = -lmlx -framework OpenGl -framework Appkit -fsanitize=address
 
-SRCS = my_put.c genrl.c read_map.c display_map.c
+SRCS = my_put.c genrl.c read_map.c
 
 OBJS = ${SRCS:.c=.o}
 

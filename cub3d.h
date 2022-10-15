@@ -64,6 +64,7 @@ typedef struct s_all_data
 	t_info	inf;
 	t_tp	tp;
 	float	rot;
+	float	cons;
 	t_s_win	s;
 	t_img_d	img_d;
 } t_data;

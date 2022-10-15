@@ -89,7 +89,7 @@ int	draw_case2(t_tp *new, int *d, t_img_d *img_d, int color)
 	return (0);
 }
 
-int	draw_line(t_tp t_point, t_img_d *img_d, int color)
+int	draw_line(t_tp t_point, t_img_d *img_d, int color, float p)
 {
 	int		d[2];
 	t_ps	start;
@@ -100,8 +100,8 @@ int	draw_line(t_tp t_point, t_img_d *img_d, int color)
 	start.y = t_point.s.y;
 	(p_v(d[0]) > p_v(d[1])) && draw_case1(&t_point, d, img_d, color);
 	(p_v(d[0]) <= p_v(d[1])) && draw_case2(&t_point, d, img_d, color);
-	return ((int) sqrt(pow(t_point.s.x - start.x, 2)
-			+ pow(t_point.s.y - start.y, 2)));
+	return (p_v((cos(p) * (t_point.s.x - start.x))
+			+ sin(p) * (t_point.s.y - start.y)));
 }
 
 void	put_block(int i, int j, int color, t_img_d *img_d)
@@ -166,7 +166,7 @@ int	manage_keys(int k, t_data *all)
 		+ (((k == a_key) * -20) + ((k == d_key) * 20)) * sin(all->rot + M_PI_2);
 	all->tp.s.x += (((k == w_key) * 20) + ((k == s_key) * -20)) * cos(all->rot)
 		+ (((k == a_key) * -20) + ((k == d_key) * 20)) * cos(all->rot + M_PI_2);
-	all->rot += ((k == 124) * M_PI / 15) + ((k == 123) * -M_PI / 15);
+	all->rot += ((k == 124) * (M_PI / 6)) + ((k == 123) * (-M_PI / 6));
 	return (0);
 }
 
@@ -176,11 +176,13 @@ int	draw_sewindow(int x, int distance, int color, t_data *data)
 	int	nu_pxls;
 	int	di;
 
-	nu_pxls = (main_h % distance);
-	printf("%d - %d\n", nu_pxls, distance);
-	y = (main_h - nu_pxls);
+	if (!distance)
+		distance++;
+	nu_pxls = data->cons / distance;
+	//nu_pxls = (main_h / 2) / distance;
+	y = (main_h - nu_pxls) / 2;
 	di = y + nu_pxls;
-	while (y < di)
+	while (y < main_h && y < di)
 	{
 		put_pixel(x, y, &data->s.pic, color);
 		y++;
@@ -199,7 +201,7 @@ int	reset_img(t_data *all)
 		x = 0;
 		while (x < main_w)
 		{
-			put_pixel(x, y, &all->s.pic, get_value(0,0, 255 * (y > (main_h / 2)), 255 * (y <= (main_h / 2))));
+			put_pixel(x, y, &all->s.pic, get_value(0, 55 * (y > (main_h / 2)), 65 * (y > (main_h / 2)), 174 * (y <= (main_h / 2))));
 			x++;
 		}
 		y++;
@@ -209,24 +211,23 @@ int	reset_img(t_data *all)
 
 int	do_it(int key, t_data *all)
 {
-	float	p;
 	int		distance = 0;
 	int		x;
 	float	inc;
 
-	p = -M_PI / 6;
 	inc = (M_PI / 3) / all->s.pic.width;
 	x = 0;
 	draw(&all->img_d, &all->inf);
 	reset_img(all);
 	manage_keys(key, all);
-	while (p < M_PI / 6)
+	float angle = all->rot - (M_PI / 6);
+	while (angle < all->rot + (M_PI / 6))
 	{
-		all->tp.e.y = 4000 * sin(p + all->rot);
-		all->tp.e.x = 4000 * cos(p + all->rot);
-		distance = draw_line(all->tp, &all->img_d, get_value(0, 0, 0, 255));
+		all->tp.e.y = 4000 * sin(angle);
+		all->tp.e.x = 4000 * cos(angle);
+		distance = draw_line(all->tp, &all->img_d, get_value(0, 0, 0, 255), all->rot);
 		draw_sewindow(x, distance, get_value(0, 67, 225, 69), all);
-		p += inc;
+		angle += inc;
 		x++;
 	}
 	mlx_put_image_to_window(all->inf.mlx,
@@ -242,6 +243,7 @@ int	main(void)
 
 	all_data.tp.s.y = 100;
 	all_data.tp.s.x = 100;
+	all_data.cons = 32 * (main_w / 2) / tan(M_PI / 6);
 	all_data.rot = 0;
 	all_data.inf.mlx = mlx_init();
 	draw_map(&all_data);
