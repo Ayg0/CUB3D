@@ -63,7 +63,24 @@ int	get_size(char *name)
 	return (i);
 }
 
-char	**read_map(char	*map_name, int	*max)
+int	check(char *s, int nu, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == 'P')
+		{
+			data->tp.s.y = (nu * 32) + 16 ;
+			data->tp.s.x = i * 32 + 16;
+		}
+		i++;
+	}
+	return (i);
+}
+
+char	**read_map(char	*map_name, int	*max, t_data *data)
 {
 	int	f;
 	int	i;
@@ -80,10 +97,10 @@ char	**read_map(char	*map_name, int	*max)
 	while (1)
 	{
 		map[i] = read_line(f);
-		tmp = ft_strlen(map[i]);
-		max[1] += (tmp - max[1]) * (tmp > max[1]);
 		if (!map[i])
 			break ;
+		tmp = check(map[i], i, data);
+		max[1] += (tmp - max[1]) * (tmp > max[1]);
 		i++;
 	}
 	return (map);

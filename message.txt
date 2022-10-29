@@ -1,0 +1,120 @@
+```
+t_cord h_intersection(double degree)
+{
+	t_cordf A;
+	degree = fmod(degree + 360, 360);
+	double radian = degree * M_PI / 180;
+	double tan = -tan(radian);
+	int dof;
+	double xo;
+	double yo;
+	dof = 0;
+	// printf("degree: %f, radian: %f, tan: %f\n", degree, radian, tan);
+	if(radian > M_PI)
+	{
+		A.y = ((int)player_y / tailsize) * tailsize - 0.0001;
+		A.x = (((player_y - A.y) / tan) + player_x);
+		yo = -tailsize;
+		xo = -yo / tan;
+	}
+	else if (radian > 0 && radian < M_PI)
+	{
+		A.y = (floor(player_y / tailsize) * tailsize + tailsize); 
+		A.x = (((player_y - A.y) / tan) + player_x);
+		yo = tailsize;
+		xo = -yo / tan;
+		// printf("xo: %f, yo: %f\n", A.x / tailsize, A.y / tailsize);
+		// exit(0);
+	}
+	else if (radian == 0 || radian == M_PI)
+	{
+		// printf("degree: %f\n", degree);
+		A.x = player_x;
+		A.y = player_y;
+		dof = 8;
+	}
+
+	while (dof < 8)
+	{
+		int i = (int)((A.x) / tailsize);
+		int j = (int)(A.y / tailsize);
+		if (((i >= 0 && i < MAP_WIDTH) && (j >= 0 && j < MAP_HEIGHT)) && map[j][i] == 1)
+		{
+			dof = 8;
+		}
+		else
+		{
+			A.x += xo;
+			A.y += yo;
+			dof += 1;
+		}
+	}
+	// if (radian > M_PI)
+	// {
+	// 	A.x += 1;
+	// }
+		// draw_rect(&img, A.x , A.y , 1, 1, 0x0000AABB);
+
+	// printf("h_intersection: x: %f, x_normalized: %f\n", A.x, floorf(A.x / tailsize) * tailsize);
+
+	return (t_cord){A.x, A.y};
+}
+
+t_cord v_intersection(double degree)
+{
+	t_cordf A;
+	degree = fmod(degree + 360, 360);
+	double radian = degree * M_PI / 180;
+	double tan = -tan(radian);
+	int dof;
+	double xo;
+	double yo;
+	dof = 0;
+
+	if (radian > M_PI_2 && radian < 3 * M_PI_2)
+	{
+		A.x = ((int)player_x / tailsize) * tailsize - 0.0001;
+		A.y = (((player_x - A.x) * tan) + player_y);
+		xo = -tailsize;
+		yo = -xo * tan;
+	}
+	else if (radian < M_PI_2 || radian > 3 * M_PI_2)
+	{
+		A.x = floor(player_x / tailsize) * tailsize + tailsize;
+		A.y = (((player_x - A.x) * tan) + player_y);
+		xo = tailsize;
+		yo = -xo * tan;
+		// printf("xo: %f, yo: %f\n", A.x / tailsize, A.y / tailsize);
+		// exit(0);
+	}
+	else if (radian == M_PI_2 || radian == 3 * M_PI_2)
+	{
+		A.x = player_x;
+		A.y = player_y;
+		dof = 8;
+	}
+	while (dof < 8)
+	{
+		int i = (int)(A.x / tailsize);
+		int j = (int)(A.y / tailsize);
+		if (((i >= 0 && i < MAP_WIDTH) && (j >= 0 && j < MAP_HEIGHT)) && map[j][i] == 1)
+		{
+			dof = 8;
+		}
+		else
+		{
+			A.x += xo;
+			A.y += yo;
+			dof += 1;
+		}
+	}
+	// if (radian > M_PI_2 && radian < 3 * M_PI_2)
+	// {
+	// 	A.y += 1;
+	// }
+
+
+		// draw_rect(&img, A.x -2, A.y -2, 4, 4, 0x00FFFF00);
+	return (t_cord){A.x, A.y};
+}
+```
