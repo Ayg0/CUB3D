@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 09:39:01 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/04 09:47:21 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/04 10:47:15 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,6 +370,19 @@ int	check_boundries(t_data *data, char **map, int i, int j)
 	return (err);
 }
 
+int	fill_pl(t_data *data, char c, int y, int x)
+{
+	t_pl	*pl;
+
+	pl = &data->config.plr;
+	if (pl->x >= 0 || pl->y >= 0 || pl->d >= 0)
+		return (-4);
+	pl->x = x * mini_t + (mini_t / 2);
+	pl->y = y * mini_t + (mini_t / 2);
+	pl->d = c;
+	return (0);	
+}
+
 int	check_map(t_data *data)
 {
 	int		i;
@@ -383,6 +396,9 @@ int	check_map(t_data *data)
 		j = 1;
 		while (map[i][j])
 		{
+			if ((not_valid(map[i][j], "NSWE") >= 0)
+				&& fill_pl(data, map[i][j], i, j))
+				return (-4);	
 			if ((i == 0 || i == data->config.w_h[1] - 1) && (not_valid(map[i][j], "1 ") < 0))
 				return (-4);
 			if (map[i][j] == ' ' && check_boundries(data, map, i, j))
@@ -391,7 +407,7 @@ int	check_map(t_data *data)
 		}
 		i++;
 	}
-	return (0);		
+	return (-4 * (data->config.plr.x == -1));		
 }
 
 int	get_content(int fd, t_data *data)
@@ -464,6 +480,9 @@ void	init_names(t_data *data, char **names)
 	data->config.w_h[1] = 0;
 	data->config.cc = 0;
 	data->config.fc = 0;
+	data->config.plr.x = -1;
+	data->config.plr.y = -1;
+	data->config.plr.d = -1;
 }
 
 int	main(void)

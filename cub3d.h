@@ -71,7 +71,14 @@ typedef	struct s_tmp
 {
 	char			*tmp;
 	struct s_tmp	*next;
-}t_tmp;
+}	t_tmp;
+
+typedef struct s_player
+{
+	int		x;
+	int		y;
+	char	d;
+}	t_pl;
 
 typedef	struct s_config
 {
@@ -82,6 +89,7 @@ typedef	struct s_config
 	char	*ea;
 	int		fc;
 	int		cc;
+	t_pl	plr;
 	int		w_h[2];
 	char	**map;
 }	t_config;
