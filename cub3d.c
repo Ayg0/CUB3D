@@ -6,11 +6,6 @@ int	put_pixel(int x, int y, t_img_d *img_data, int color)
 	return (1);
 }
 
-int	get_value(u8bit tr, u8bit red, u8bit blue, u8bit green)
-{
-	return (tr << 24 | red << 16 | green << 8 | blue);
-}
-
 double	p_vf(double value)
 {
 	return (value * (value >= 0) + -value * (value < 0));
@@ -282,11 +277,12 @@ int	main(void)
 	t_data	all_data;
 
 	init_data(&all_data);
-	render_view(-9, &all_data);
-	mlx_put_image_to_window(all_data.inf.mlx,
-		all_data.inf.window, all_data.img_d.img, 0, 0);
-	mlx_hook(all_data.s.window, 02, (1L << 0), render_view, &all_data);
-	mlx_put_image_to_window(all_data.inf.mlx,
-		all_data.s.window, all_data.s.pic.img, 0, 0);
-	mlx_loop(all_data.inf.mlx);
+	initial_reading(&all_data, "map.cub");
+//	render_view(-9, &all_data);
+//	mlx_put_image_to_window(all_data.inf.mlx,
+//		all_data.inf.window, all_data.img_d.img, 0, 0);
+//	mlx_hook(all_data.s.window, 02, (1L << 0), render_view, &all_data);
+//	mlx_put_image_to_window(all_data.inf.mlx,
+//		all_data.s.window, all_data.s.pic.img, 0, 0);
+//	mlx_loop(all_data.inf.mlx);
 }

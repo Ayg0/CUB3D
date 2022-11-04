@@ -67,21 +67,44 @@ typedef	struct s_nums
 	int		toggle;
 }	t_nums;
 
+typedef	struct s_tmp
+{
+	char			*tmp;
+	struct s_tmp	*next;
+}t_tmp;
+
+typedef	struct s_config
+{
+	char	*names[7];
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	int		fc;
+	int		cc;
+	int		w_h[2];
+	char	**map;
+}	t_config;
 
 typedef struct s_all_data
 {
-	t_info	inf;
-	t_tp	tp;
-	t_s_win	s;
-	t_nums	nu;
-	t_img_d	img_d;
+	t_info		inf;
+	t_tp		tp;
+	t_s_win		s;
+	t_nums		nu;
+	t_img_d		img_d;
+	t_tmp		*parts;
+	t_config	config;
 } t_data;
+
+
 
 typedef	unsigned char u8bit;
 
 // general:
 int		ft_strlen(char	*s);
 void	*ft_calloc(size_t count, size_t size);
+char	**ft_split(char const *s, char c);
 // load_map:
 char	*read_line(int fd);
 char	**read_map(char	*map_name, int	*max, t_data *data);

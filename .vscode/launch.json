@@ -8,7 +8,7 @@
 			"name": "(lldb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/cub3d",
+			"program": "${workspaceFolder}/parsing/a.out",
 			"args": ["map"],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",

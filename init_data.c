@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 11:28:40 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/10/28 10:00:31 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/10/31 11:35:39 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,22 @@ void	init_nu(t_data *data)
 	data->nu.toggle = 0;
 }
 
+int	init_names(t_data *data, char **names)
+{
+	names[0] = "NO";
+	names[1] = "SO";
+	names[2] = "WE";
+	names[3] = "EA";
+	names[4] = "F";
+	names[5] = "C";
+	names[6] = NULL;
+	data->config.cc = 0;
+	data->config.fc = 0;
+}
+
 void	init_map(t_data *data)
 {
+	init_names(data, data->config.names);
 	data->inf.map = read_map("./map", data->inf.max, data);
 	data->img_d.height = data->inf.max[0] * mini_t;
 	data->img_d.width = data->inf.max[1] * mini_t;
