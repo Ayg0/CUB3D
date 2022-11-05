@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:46:36 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/05 13:55:11 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/05 14:07:09 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ int	check_boundries(t_data *data, char **map, int i, int j)
 
 	err = ((i > 0) && ((int *)map[i - 1])[0] >= j
 			&& not_valid(map[i - 1][j], "1 ") < 0);
-	err += ((i + 1 < data->config.w_h[1])
-			&& (((int *)map[i + 1])[0] >= j)
-			&& (not_valid(map[i + 1][j], "1 ") < 0));
+	err += ((i + 1 < data->config.w_h[1]) && (((int *)map[i + 1])[0] >= j) && (not_valid(map[i + 1][j], "1 ") < 0));
 	err += ((j > 1) && not_valid(map[i][j - 1], "1 ") < 0);
 	err += (not_valid(map[i][j + 1], "1 ") < 0);
 	return (err);
