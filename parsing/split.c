@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 10:40:46 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/05 10:11:26 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/05 13:45:27 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,6 @@ static void	why_r_ya_running(char **d, int i)
 		i--;
 	}
 	free(d);
-}
-// note that dest has to be allocated with calloc, or you should add '\0'
-void	ft_strlcpy(char *dest, const char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size != 0)
-	{
-		while (i < size - 1 && src[i] != '\0')
-		{
-			dest[i] = src[i];
-			i++;
-		}
-	}
 }
 
 static void	doo_it(char **da, char const *from, char c)

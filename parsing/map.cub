@@ -3,9 +3,9 @@ EA ./path_to_the_east_texture
 NO ./path_to_the_west_texture
 SO ./path_to_the_east_texture
 C 225,30,0
-F 225,30,0
 
-111111    111       
-1110N1   111 1111111     
-111001111111111111   
+F 225,30,0
+111111    111
+1110N1   111                             1111111
+111001111111111111
 111111111111111

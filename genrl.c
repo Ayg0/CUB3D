@@ -30,3 +30,31 @@ void	*ft_calloc(size_t count, size_t size)
 		p[i] = 0;
 	return ((void *)p);
 }
+
+int	toi(char *str, int flag)
+{
+	int				i;
+	int				sign;
+	unsigned long	num;
+
+	i = 0;
+	sign = 1;
+	num = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		num *= 10;
+		num += str[i] - '0';
+		i++;
+	}
+	if (!flag)
+		free(str);
+	return (num * sign);
+}

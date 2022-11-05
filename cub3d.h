@@ -105,14 +105,13 @@ typedef struct s_all_data
 	t_config	config;
 } t_data;
 
-
-
-typedef	unsigned char u8bit;
+typedef	unsigned char	u8bit;
+typedef	unsigned int	u32bit;
 
 // general:
 int		ft_strlen(char	*s);
 void	*ft_calloc(size_t count, size_t size);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char c, int *flag);
 // load_map:
 char	*read_line(int fd);
 char	**read_map(char	*map_name, int	*max, t_data *data);
@@ -124,13 +123,30 @@ void	get_dx_dy(int *dxy, t_tp t_point, t_img_d *img_d, int color);
 int		draw_case2(t_tp *new, int *d, t_img_d *img_d, int color);
 int		draw_case1(t_tp *new, int *d, t_img_d *img_d, int color);
 int		put(int x, int y, t_img_d *img_d, int color);
-t_ps h_intersection(t_data *data, int player_x, int player_y, double radian);
-t_ps v_intersection(t_data *data, int player_x, int player_y, double radian);
-void draw_line(int x0, int y0, int x1, int y1, int color, t_data *data);
+t_ps	h_intersection(t_data *data, int player_x, int player_y, double radian);
+t_ps	v_intersection(t_data *data, int player_x, int player_y, double radian);
+void	draw_line(int x0, int y0, int x1, int y1, int color, t_data *data);
 //double	draw_line(t_tp t_point, t_img_d *img_d, int color, double p);
 int		p_v(int value);
 double	p_vf(double value);
 // horizontal and vertical inter:
 t_ps	*get_horizontal(t_ps p, t_data *data, double angle);
 t_ps	*get_vertical(t_ps p, t_data *data, double angle);
+
+int		get_color(char *s);
+u8bit	deja_vu(u8bit *l, u8bit i);
+int		toi(char *str, int flag);
+int		double_len(char **s);
+int		ft_strcmp(char *s1, char *s2);
+int		fill_param(t_data *data, u8bit *l, u8bit i, char *s);
+char	*cp_no_nl_check(char *s, int flag);
+int		what_to_do(char *s, t_data *data);
+int		load_double(t_data	*data);
+int		check_map(t_data *data);
+int		check_map_name(char *m_name, char *exten);
+char	*add_two(t_tmp *part);
+u8bit	check_valid(t_data	*data, u8bit *l, char **s);
+int		load_map(char *s, t_data *data);
+int		not_valid(char c, char *options);
+void	ft_strlcpy(char *dest, const char *src, size_t size);
 #endif
