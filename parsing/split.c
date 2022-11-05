@@ -6,13 +6,13 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 10:40:46 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/10/31 10:24:08 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/05 10:11:26 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static size_t	tha_nambar(char const *s, char c)
+static size_t	tha_nambar(char const *s, char c, int *flag)
 {
 	size_t	i;
 
@@ -20,7 +20,10 @@ static size_t	tha_nambar(char const *s, char c)
 	while (*s)
 	{
 		while (*s == c)
+		{
+			flag && (*flag)++;
 			s++;
+		}
 		if (!*s)
 			break ;
 		while (*s != c && *s)
@@ -94,13 +97,13 @@ static void	doo_it(char **da, char const *from, char c)
 	}
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c, int *flag)
 {
 	char	**p;
 
 	if (!s)
 		return (NULL);
-	p = (char **)ft_calloc((tha_nambar(s, c) + 1), sizeof(char *));
+	p = (char **)ft_calloc((tha_nambar(s, c, flag) + 1), sizeof(char *));
 	if (!p)
 		return (NULL);
 	doo_it(p, s, c);

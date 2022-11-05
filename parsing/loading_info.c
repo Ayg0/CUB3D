@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 09:39:01 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/04 10:47:15 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/05 10:14:11 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,12 @@ int	get_color(char *s)
 {
 	char	**colors;
 	u8bit	c[3];
+	int		flag;
 
-	colors = ft_split(s, ',');
+	flag = 0;
+	colors = ft_split(s, ',', &flag);
+	if (flag != 2)
+		return (-4);
 	if (double_len(colors) != 3)
 		return (-4);
 	c[0] = toi(colors[0], 0);
@@ -163,7 +167,8 @@ int	fill_param(t_data *data, u8bit *l, u8bit i, char *s)
 
 	if (deja_vu(l, i))
 		return (-4);
-	load_param(data, i, s);
+	if (load_param(data, i, s))
+		return (-4);
 	return (0);
 }
 
@@ -293,13 +298,13 @@ char *add_two(t_tmp *part)
 	int		b4;
 	int		i;
 
-	b4 = ft_strlen(part->tmp) + 1;
+	b4 = ft_strlen(part->tmp) + 4;
 	s = ft_calloc(b4 + 2, sizeof(char));
-	s[0] = b4;
+	((int *)s)[0] = b4;
 	i = 0;
 	while (part->tmp[i])
 	{
-		s[i + 1] = part->tmp[i];
+		s[i + 4] = part->tmp[i];
 		i++;
 	}
 	s[i + 1] = 32;
@@ -343,13 +348,12 @@ int	what_to_do(char *s, t_data *data)
 		}
 		else
 		{
-			get_info = ft_split(s, 32);
+			get_info = ft_split(s, 32, NULL);
 			if (check_valid(data, &l, get_info))
 			{
 				free(s);
 				return (-4);
 			}
-			//	print_error(2, "Unvalid Configuration.", 5);
 			free(s);
 		}
 		return (0);
@@ -363,8 +367,9 @@ int	check_boundries(t_data *data, char **map, int i, int j)
 {
 	int	err;
 
-	err = (i > 0 && map[i - 1][0] >= j) && (not_valid(map[i - 1][j], "1 ") < 0);
-	err += (i + 1 < data->config.w_h[1]) && map[i + 1][0] >= j && (not_valid(map[i + 1][j], "1 ") < 0);
+	err = (i > 0 && ((int *)map[i - 1])[0] >= j) && (not_valid(map[i - 1][j], "1 ") < 0);
+	err += (i + 1 < data->config.w_h[1])
+		&& ((int *)map[i + 1])[0] >= j && (not_valid(map[i + 1][j], "1 ") < 0);
 	err += (j > 1) && (not_valid(map[i][j - 1], "1 ") < 0);
 	err += (not_valid(map[i][j + 1], "1 ") < 0);
 	return (err);
@@ -393,7 +398,7 @@ int	check_map(t_data *data)
 	map = data->config.map;
 	while (map[i])
 	{
-		j = 1;
+		j = 4;
 		while (map[i][j])
 		{
 			if ((not_valid(map[i][j], "NSWE") >= 0)
@@ -437,7 +442,7 @@ int	get_content(int fd, t_data *data)
 	i = 0;
 	while (data->config.map[i])
 	{
-		printf("%d,^^%s\n", i, (data->config.map[i] + 1));
+		printf("%d, %d\n", i, (data->config.map[i][0]));
 		i++;
 	}
 	return (0);
@@ -491,6 +496,6 @@ int	main(void)
 
 	init_names(&all_data, all_data.config.names);
 	initial_reading(&all_data, "map.cub");
-	system("leaks a.out");
+	//system("leaks a.out");
 	//pause();
 }

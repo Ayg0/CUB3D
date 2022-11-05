@@ -1,4 +1,0 @@
-compile with:
-		gcc loading_info.c split.c ../genrl.c -g
-I've tested leaks and seg 'hope so', if no errors are presented everything will be displayed.
-else an error code is displayed.
