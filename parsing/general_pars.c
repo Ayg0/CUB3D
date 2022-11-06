@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:44:33 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/05 13:45:15 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/06 09:31:47 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_map_name(char *m_name, char *exten)
 {
-	int	len;
+	size_t	len;
 
 	len = ft_strlen(m_name) - ft_strlen(exten);
 	while (m_name[len] && *exten)

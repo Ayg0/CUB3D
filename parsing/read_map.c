@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:41:30 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/05 13:43:37 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/06 09:36:05 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*join_char(char *s, char c)
 {
-	char	*master_s;
-	int		i;
+	char		*master_s;
+	size_t		i;
 
 	master_s = ft_calloc(ft_strlen(s) + 2, sizeof(char));
 	i = 0;
@@ -60,17 +60,17 @@ char	*read_line(int fd)
 
 char	*add_two(t_tmp *part)
 {
-	char	*s;
-	int		b4;
-	int		i;
+	char		*s;
+	size_t		b4;
+	size_t		i;
 
-	b4 = ft_strlen(part->tmp) + 4;
+	b4 = ft_strlen(part->tmp) + 8;
 	s = ft_calloc(b4 + 2, sizeof(char));
-	((int *)s)[0] = b4;
+	((size_t *)s)[0] = b4;
 	i = 0;
 	while (part->tmp[i])
 	{
-		s[i + 4] = part->tmp[i];
+		s[i + 8] = part->tmp[i];
 		i++;
 	}
 	s[i + 1] = 32;
@@ -79,7 +79,7 @@ char	*add_two(t_tmp *part)
 	return (s);
 }
 
-int	strtlist(char *s, t_data *data, t_tmp **string, int *r)
+int	strtlist(char *s, t_data *data, t_tmp **string, size_t *r)
 {
 	if (!(*string))
 	{
@@ -101,9 +101,9 @@ int	strtlist(char *s, t_data *data, t_tmp **string, int *r)
 
 int	load_map(char *s, t_data *data)
 {
-	static t_tmp	*string;
-	int				*r;
-	size_t			i;
+	static t_tmp		*string;
+	size_t				*r;
+	size_t				i;
 
 	i = 0;
 	r = data->config.w_h;
