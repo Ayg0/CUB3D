@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:41:30 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/06 09:36:05 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/06 11:18:21 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*add_two(t_tmp *part)
 		s[i + 8] = part->tmp[i];
 		i++;
 	}
-	s[i + 1] = 32;
+	s[i + 8] = 32;
 	free(part->tmp);
 	free(part);
 	return (s);
