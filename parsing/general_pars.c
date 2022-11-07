@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:44:33 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/06 09:31:47 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:49:51 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	double_len(char **s)
 int	get_color(char *s)
 {
 	char	**colors;
-	u8bit	c[3];
+	int		c[3];
 	int		flag;
 
 	flag = 0;
