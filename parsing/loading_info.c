@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 09:39:01 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/05 14:02:56 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:53:08 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,19 @@ void	init_names(t_data *data, char **names)
 
 int	main(void)
 {
-	t_data	all_data;
-
-	init_names(&all_data, all_data.config.names);
-	initial_reading(&all_data, "map.cub");
+	//t_data	all_data;
+//
+	//init_names(&all_data, all_data.config.names);
+	//if (initial_reading(&all_data, "map.cub"))
+	//	return (-4);
+	//int	i, j;
+	//i = 0;
+	//char **map = all_data.config.map;
+	//while (map[i])
+	//{
+	//	printf("%lu\n", ((size_t *)map[i])[0]);
+	//	i++;
+	//}
+	printf("w");
+	write(1, "r", 1);
 }

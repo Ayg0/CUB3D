@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:41:30 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/06 11:18:21 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:17:33 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,16 @@ char	*add_two(t_tmp *part)
 	size_t		b4;
 	size_t		i;
 
-	b4 = ft_strlen(part->tmp) + 8;
+	b4 = ft_strlen(part->tmp) + SIZE_LEN;
 	s = ft_calloc(b4 + 2, sizeof(char));
 	((size_t *)s)[0] = b4;
 	i = 0;
 	while (part->tmp[i])
 	{
-		s[i + 8] = part->tmp[i];
+		s[i + SIZE_LEN] = part->tmp[i];
 		i++;
 	}
-	s[i + 8] = 32;
+	s[i + SIZE_LEN] = 32;
 	free(part->tmp);
 	free(part);
 	return (s);

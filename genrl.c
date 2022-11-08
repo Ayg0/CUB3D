@@ -1,8 +1,8 @@
 #include "cub3d.h"
 
-int	ft_strlen(char *s)
+size_t	ft_strlen(char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = (!s * -1);
 	while (s && s[i])
@@ -34,27 +34,21 @@ void	*ft_calloc(size_t count, size_t size)
 int	toi(char *str, int flag)
 {
 	int				i;
-	int				sign;
 	unsigned long	num;
 
 	i = 0;
-	sign = 1;
 	num = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		num *= 10;
 		num += str[i] - '0';
+		if (num > 255)
+			return (-4);
 		i++;
 	}
 	if (!flag)
 		free(str);
-	return (num * sign);
+	if (str[i])
+		return (-4);
+	return (num);
 }

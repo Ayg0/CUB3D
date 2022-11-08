@@ -6,7 +6,7 @@
 /*   By: ted-dafi <ted-dafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 13:46:36 by ted-dafi          #+#    #+#             */
-/*   Updated: 2022/11/07 11:34:43 by ted-dafi         ###   ########.fr       */
+/*   Updated: 2022/11/08 13:40:50 by ted-dafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ int	check_map(t_data *data)
 	map = data->config.map;
 	while (map[i])
 	{
-		j = 8;
+		j = SIZE_LEN;
+		if (not_valid(map[i][j], "1 ") < 0)
+			return (-4);
 		while (map[i][j])
 		{
 			if ((not_valid(map[i][j], "NSWE") >= 0)
